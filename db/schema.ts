@@ -1,4 +1,4 @@
-/* import { pgTable, serial, text, timestamp, boolean, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, serial, text, timestamp, boolean, varchar } from "drizzle-orm/pg-core";
 
 // Website table for storing website information to scan
 export const websites = pgTable("websites", {
@@ -29,4 +29,3 @@ export const userRoles = pgTable("user_roles", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
- */
