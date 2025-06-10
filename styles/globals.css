@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -18,7 +22,7 @@
     transparent 360deg
   );
   --secondary-glow: radial-gradient(
-    rgba(255, 255, 255, 1),
+    rgb(255, 255, 255),
     rgba(255, 255, 255, 0)
   );
 
@@ -57,13 +61,13 @@
     --tile-start-rgb: 2, 13, 46;
     --tile-end-rgb: 2, 5, 19;
     --tile-border: conic-gradient(
-      #ffffff80,
+      #18030346,
       #ffffff40,
       #ffffff30,
       #ffffff20,
       #ffffff10,
       #ffffff10,
-      #ffffff80
+      #0c060680
     );
 
     --callout-rgb: 20, 20, 20;

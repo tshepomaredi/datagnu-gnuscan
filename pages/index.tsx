@@ -28,23 +28,40 @@ export default function App() {
   }
 
   return (
-    <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (
-          <li 
-            onClick={() => deleteTodo(todo.id)}
-            key={todo.id}>{todo.content}</li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/gen2/start/quickstart/nextjs-pages-router/">
-          Review next steps of this tutorial.
-        </a>
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <h2 className="text-xl font-semibold mb-4">My todos</h2>
+      <button 
+        onClick={createTodo}
+        className="mb-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm"
+      >
+        + New Todo
+      </button>
+      
+      {todos.length === 0 ? (
+        <p className="text-gray-500">No todos yet. Create one to get started.</p>
+      ) : (
+        <ul className="divide-y divide-gray-200 border border-gray-200 rounded-md overflow-hidden">
+          {todos.map((todo) => (
+            <li 
+              key={todo.id}
+              onClick={() => deleteTodo(todo.id)}
+              className="p-3 hover:bg-gray-50 cursor-pointer flex items-center"
+            >
+              <span className="flex-grow text-black">{todo.content}</span>
+              <span className="text-xs text-gray-400">(click to delete)</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      
+      <div className="mt-6 text-center text-sm text-gray-500">
+        <p>🥳 App successfully styled with Tailwind CSS.</p>
+        <p className="mt-2">
+          <a href="https://docs.amplify.aws/gen2/start/quickstart/nextjs-pages-router/" className="text-blue-600 hover:underline">
+            Review next steps of this tutorial.
+          </a>
+        </p>
       </div>
-    </main>
+    </div>
   );
 }
