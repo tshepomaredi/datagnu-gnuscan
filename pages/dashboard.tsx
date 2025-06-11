@@ -31,6 +31,7 @@ export default function Dashboard() {
   const router = useRouter();
   const { username } = useUser();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchWebsites();
   }, [username]);

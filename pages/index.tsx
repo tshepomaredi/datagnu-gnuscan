@@ -54,7 +54,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg text-blue-600 font-semibold mb-2">Uptime Monitoring</h3>
               <p className="text-gray-600">
-                Continuous monitoring of your websites to ensure they're always accessible to your users.
+                Continuous monitoring of your websites to ensure they&apos;re always accessible to your users.
               </p>
             </div>
             
