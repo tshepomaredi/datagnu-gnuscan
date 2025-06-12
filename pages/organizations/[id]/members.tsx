@@ -24,7 +24,7 @@ export default function ManageMembers() {
   const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter();
   const { id: organizationId } = router.query;
-  const { username, email: userEmail } = useUser();
+  const { username, email: userEmail, userId } = useUser();
 
   useEffect(() => {
     if (!organizationId || !username) return;
@@ -210,7 +210,7 @@ export default function ManageMembers() {
                     {member.userId !== username && (
                       <select
                         value={member.role}
-                        onChange={(e) => updateRole(member.userId, e.target.value)}
+                        onChange={(e) => updateRole(member.email, e.target.value)}
                         className="border text-black border-gray-300 rounded-md px-2 py-1"
                       >
                         <option value="member">Member</option>

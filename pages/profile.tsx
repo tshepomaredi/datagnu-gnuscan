@@ -2,23 +2,30 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useUser } from '@/contexts/UserContext';
+import { useUser, UserProvider } from '@/contexts/UserContext';
+
+// Define the Organization interface
+interface Organization {
+  id: number;
+  name: string;
+  role: string;
+  createdAt: string;
+}
 
 export default function Profile() {
-  const [userOrganizations, setUserOrganizations] = useState([]);
+  const [userOrganizations, setUserOrganizations] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
-  const { username } = useUser();
-
+  const { username, email } = useUser();
+  
   useEffect(() => {
     async function fetchUserData() {
       if (!username) return;
       
       try {
         // Get user organizations and roles
-        // const response = await fetch(`/api/users/${username}/organizations`);
         const response = await fetch(`/api/user-organizations?userId=${encodeURIComponent(username)}`);
         if (response.ok) {
-          const data = await response.json();
+          const data = await response.json() as Organization[];
           setUserOrganizations(data);
         }
       } catch (error) {
@@ -56,7 +63,7 @@ export default function Profile() {
           <div className="space-y-4">
             <div>
               <p className="text-sm text-gray-500">Username</p>
-              <p className="text-black">{username}</p>
+              <p className="text-black">{email}</p>
             </div>
           </div>
         </div>
@@ -76,7 +83,7 @@ export default function Profile() {
             <p className="text-gray-500">You are not a member of any organizations.</p>
           ) : (
             <ul className="divide-y divide-gray-200">
-              {userOrganizations.map((org) => (
+              {userOrganizations.map((org: Organization) => (
                 <li key={org.id} className="py-4">
                   <div className="flex justify-between">
                     <div>
