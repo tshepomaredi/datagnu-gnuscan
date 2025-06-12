@@ -4,8 +4,16 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useUser } from '@/contexts/UserContext';
 
+// Define the Organization interface
+interface Organization {
+  id: number;
+  name: string;
+  role: string;
+  createdAt: string;
+}
+
 export default function Organizations() {
-  const [organizations, setOrganizations] = useState([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
   const { username } = useUser();
 
@@ -14,18 +22,16 @@ export default function Organizations() {
       if (!username) return;
       
       try {
-        // const response = await fetch(`/api/users/${username}/organizations`);
-         console.log('Fetching organizations for username:', username);
-
-        // const response = await fetch(`/api/users/${encodeURIComponent(username)}/organizations`);
+        // Use the username directly instead of the UUID
         const response = await fetch(`/api/user-organizations?userId=${encodeURIComponent(username)}`);
-
-
-      // console.log('Response status:', response.status);
+        console.log('Fetching organizations for:', username);
+        
         if (response.ok) {
-          const data = await response.json();
+          const data = await response.json() as Organization[];
           setOrganizations(data);
-          // console.log(data);
+          console.log('Organizations data:', data);
+        } else {
+          console.error('Failed to fetch organizations:', response.status, response.statusText);
         }
       } catch (error) {
         console.error('Error fetching organizations:', error);
@@ -36,8 +42,6 @@ export default function Organizations() {
 
     fetchOrganizations();
   }, [username]);
-
-  // console.log('Organizations:', organizations);
 
   return (
     <>
@@ -71,7 +75,7 @@ export default function Organizations() {
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {organizations.map((org) => (
+            {organizations.map((org: Organization) => (
               <div key={org.id} className="bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-xl text-black font-semibold mb-2">{org.name}</h2>
                 <p className="text-sm text-gray-500 mb-4">
