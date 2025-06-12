@@ -5,7 +5,7 @@ import Head from 'next/head';
 
 export default function LandingPage() {
   const { user } = useAuthenticator();
-
+  console.log('User:', user);
   return (
     <>
       <Head>

@@ -6,7 +6,6 @@ import { eq, and } from 'drizzle-orm';
 import https from 'https';
 import http from 'http';
 import { URL } from 'url';
-import { getCurrentUser } from '@/utils/auth';
 
 async function checkWebsite(url: string): Promise<{
   isUp: boolean;

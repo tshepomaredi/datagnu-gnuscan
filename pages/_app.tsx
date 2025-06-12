@@ -14,7 +14,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Authenticator>
       {({ signOut, user }) => (
-        <UserProvider username={user?.username || null}>
+        <UserProvider 
+          username={user?.username || null}
+          email={user?.signInDetails?.loginId || null}
+          userId={user?.userId || user?.username || null}
+        >
           <div className="min-h-screen bg-gray-50">
             <header className="bg-white shadow-sm">
               <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -27,9 +31,14 @@ export default function App({ Component, pageProps }: AppProps) {
                     Home
                   </Link>
                   {user && (
-                    <Link href="/dashboard" className="text-gray-600 hover:text-blue-800">
-                      Dashboard
-                    </Link>
+                    <>
+                      <Link href="/dashboard" className="text-gray-600 hover:text-blue-800">
+                        Dashboard
+                      </Link>
+                      <Link href="/profile" className="text-gray-600 hover:text-blue-800">
+                        My Profile
+                      </Link>
+                    </>
                   )}
                   <Link href="/about" className="text-gray-600 hover:text-blue-800">
                     About
@@ -40,14 +49,14 @@ export default function App({ Component, pageProps }: AppProps) {
                   {user && (
                     <>
                       <span className="text-sm text-gray-600 hidden md:inline">
-                        {user.username}
+                        {user.signInDetails?.loginId}
                       </span>
-                      <button 
-                        onClick={signOut}
+                          <button 
+                            onClick={signOut}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm"
-                      >
-                        Sign out
-                      </button>
+                          >
+                            Sign out
+                          </button>
                     </>
                   )}
                 </div>
