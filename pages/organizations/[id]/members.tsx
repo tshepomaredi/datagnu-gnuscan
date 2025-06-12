@@ -79,7 +79,7 @@ export default function ManageMembers() {
       if (response.ok) {
         const data = await response.json();
         setInviteEmail('');
-        setSuccessMessage(`User invited successfully. Temporary password: ${data.tempPassword}`);
+        setSuccessMessage(`User invited successfully. Cognito will send an email with login instructions.`);
         
         // Refresh member list
         const membersResponse = await fetch(`/api/organizations/${organizationId}/members`);
@@ -210,8 +210,8 @@ export default function ManageMembers() {
                     {member.userId !== username && (
                       <select
                         value={member.role}
-                        onChange={(e) => updateRole(member.email, e.target.value)}
-                        className="border text-black border-gray-300 rounded-md px-2 py-1"
+                        onChange={(e) => updateRole(member.userId, e.target.value)}
+                        className="border text-white border-blue-600 bg-blue-600 rounded-md px-2 py-1"
                       >
                         <option value="member">Member</option>
                         <option value="admin">Admin</option>

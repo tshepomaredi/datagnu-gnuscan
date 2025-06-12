@@ -53,7 +53,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           Value: 'true'
         }
       ],
-      MessageAction: 'SUPPRESS' // Don't send email, we'll handle that separately
+      ForceAliasCreation: false,
+      DesiredDeliveryMediums: [ "EMAIL",],
     });
     
     try {
@@ -76,13 +77,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         updatedAt: new Date()
       }).returning();
       
-      // In a real application, you would send an email with the temporary password
-      // For this example, we'll just return it in the response
       
       return res.status(201).json({
-        message: 'User invited successfully',
-        userOrganization: result[0],
-        tempPassword // In production, you would NOT return this
+        message: 'User invited successfully. Cognito will send an email with login instructions.',
+        userOrganization: result[0]
       });
     } catch (cognitoError) {
       console.error('Cognito error:', cognitoError);
@@ -104,12 +102,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 function generateTemporaryPassword() {
   const length = 12;
-  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+  const alphaUpper_charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const alphaLower_charset = 'abcdefghijklmnopqrstuvwxyz';
+  const number_charset = '0123456789';
+  const special_charset = '!@#$%^&*()_+';
+
   let password = '';
   
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    password += charset[randomIndex];
+  for (let i = 0; i < length/4; i++) {
+    const randomIndex1 = Math.floor(Math.random() * alphaUpper_charset.length);
+    const randomIndex2 = Math.floor(Math.random() * alphaLower_charset.length);
+    const randomIndex3 = Math.floor(Math.random() * number_charset.length);
+    const randomIndex4 = Math.floor(Math.random() * special_charset.length);
+    password += alphaUpper_charset[randomIndex1];
+    password += alphaLower_charset[randomIndex2];
+    password += number_charset[randomIndex3];
+    password += special_charset[randomIndex4];
   }
   
   return password;
