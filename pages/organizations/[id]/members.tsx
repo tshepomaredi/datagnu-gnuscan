@@ -29,31 +29,31 @@ export default function ManageMembers() {
   useEffect(() => {
     if (!organizationId || !username) return;
     
-    async function fetchData() {
-      try {
-        // Get all members
-        const membersResponse = await fetch(`/api/organizations/${organizationId}/members`);
-        if (membersResponse.ok) {
-          const membersData = await membersResponse.json();
-          setMembers(membersData);
-          
-          // Check if current user is admin by finding them in the members list
-          const currentUser = membersData.find(member => member.userId === username);
-          if (currentUser) {
-            setIsAdmin(currentUser.role === 'admin');
-          } else {
-            setIsAdmin(false);
-          }
+  async function fetchData() {
+    try {
+      // Get all members
+      const membersResponse = await fetch(`/api/organizations/${organizationId}/members`);
+      if (membersResponse.ok) {
+        const membersData = await membersResponse.json() as Member[];
+        setMembers(membersData);
+        
+        // Check if current user is admin by finding them in the members list
+        const currentUser = membersData.find((member: Member) => member.userId === username);
+        if (currentUser) {
+          setIsAdmin(currentUser.role === 'admin');
+        } else {
+          setIsAdmin(false);
         }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
       }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
     }
-    
-    fetchData();
-  }, [organizationId, username]);
+  }
+  
+  fetchData();
+}, [organizationId, username]);
     
 
   async function inviteUser(e: React.FormEvent) {
