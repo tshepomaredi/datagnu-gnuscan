@@ -94,16 +94,36 @@ export default function Dashboard() {
         <title>Dashboard - GnuScan</title>
       </Head>
 
+      <div className="mt-8 bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl text-blue-600 font-semibold mb-4">User Management</h2>
+        <div className="flex flex-col md:flex-row gap-4">
+          <Link 
+            href="/profile" 
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-center"
+          >
+            View My Profile
+          </Link>
+          <Link 
+            href="/organizations" 
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-center"
+          >
+            Manage Organizations
+          </Link>
+        </div>
+      </div>
+
       <div className="py-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Your Websites</h1>
+          <h1 className="text-2xl text-blue-600 font-bold">Your Websites</h1>
           <Link 
             href="/websites/new" 
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm"
           >
             + Add Website
           </Link>
+          
         </div>
+        
         
         {loading ? (
           <div className="text-center py-8">Loading...</div>
@@ -117,7 +137,10 @@ export default function Dashboard() {
             >
               Add Website
             </Link>
+            
+            
           </div>
+          
         ) : (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
@@ -168,6 +191,7 @@ export default function Dashboard() {
                         {scanning === website.id ? 'Scanning...' : 'Scan Now'}
                       </button>
                       <Link href={`/websites/${website.id}/edit`} className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</Link>
+                      
                       <button 
                         onClick={async () => {
                           if (confirm('Are you sure you want to delete this website?')) {
@@ -177,9 +201,8 @@ export default function Dashboard() {
                                 'Content-Type': 'application/json',
                               },
                               body: JSON.stringify({ username }),
-                              
                             });
-                            // console.log('username:', username);
+                            console.log('username:', username);
                             if (response.ok) {
                               // Refresh the websites list after successful deletion
                               fetchWebsites();
@@ -193,11 +216,18 @@ export default function Dashboard() {
                     </td>
                   </tr>
                 ))}
+
+                
               </tbody>
             </table>
+
+            
           </div>
+          
         )}
       </div>
+
+
     </>
   );
 }

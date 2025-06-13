@@ -1,7 +1,7 @@
 // pages/api/websites/[id].ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '@/db';
-import { websites } from '@/db/schema';
+import { websites, scanResults } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -74,6 +74,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ message: 'User not authenticated' });
       }
       
+      // First, delete all scan results for this website
+      await db.delete(scanResults)
+        .where(eq(scanResults.websiteId, websiteId));
+      
+      // Then delete the website
       const result = await db.delete(websites)
         .where(and(
           eq(websites.id, websiteId),

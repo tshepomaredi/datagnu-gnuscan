@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '@/db';
-import { websites } from '@/db/schema';
+import { organizations, websites, userOrganizations } from '@/db/schema';
 import { sql } from 'drizzle-orm';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await db.execute(sql`SELECT 1 as test`);
     
     // If that works, try the actual query
-    const result = await db.select().from(websites).limit(5);
+    const result = await db.select().from(userOrganizations).limit(5);
     
     return res.status(200).json({ 
       message: 'Database connection successful', 
