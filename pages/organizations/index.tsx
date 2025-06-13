@@ -15,7 +15,7 @@ interface Organization {
 export default function Organizations() {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
-  const { username } = useUser();
+  const { username, email } = useUser();
 
   useEffect(() => {
     async function fetchOrganizations() {
@@ -24,7 +24,7 @@ export default function Organizations() {
       try {
         // Use the username directly instead of the UUID
         const response = await fetch(`/api/user-organizations?userId=${encodeURIComponent(username)}`);
-        console.log('Fetching organizations for:', username);
+        console.log('Fetching organizations for:', email);
         
         if (response.ok) {
           const data = await response.json() as Organization[];
